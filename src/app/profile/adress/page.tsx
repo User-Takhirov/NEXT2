@@ -1,22 +1,12 @@
 import Link from "next/link";
 import React from "react";
 import { Metadata } from "next";
-interface dataType {
+import { ProfileCard } from "@/components/profile-card/profile-card";
+export interface dataType {
   id: number;
   name: string;
   username?: string;
   email: string;
-}
-type Params = Promise<{ id: string[] }>;
-export async function generateMetadata({ params }: { params: Params }) {
-  const { id } = await params;
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-  const data: dataType = await res.json();
-  const metadata: Metadata = {
-    title: data.name,
-    description: data.email,
-  };
-  return metadata;
 }
 
 const Adress = async () => {
@@ -27,10 +17,9 @@ const Adress = async () => {
     <>
       <div className="flex  flex-wrap gap-[20px]">
         {res?.map((item: dataType) => (
-          <div key={item.id} className="shadow-2xl p-[20px] ">
+          <div key={item.id}>
             <Link href={`/profile/adress/${item.id}`}>
-              <h1>{item?.name}</h1>
-              <h3>{item.email}</h3>
+              <ProfileCard item={item} />
             </Link>
           </div>
         ))}
